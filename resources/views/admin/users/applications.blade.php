@@ -9,7 +9,7 @@
                 <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Jobs</li>
+                        <li class="breadcrumb-item active">Job Applications</li>
                     </ol>
                 </nav>
             </div>
@@ -24,7 +24,7 @@
                     <div class="card-body card-form">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h3 class="fs-4 mb-1">Users</h3>
+                                <h3 class="fs-4 mb-1">Applications</h3>
                             </div>
                             
                         </div>
@@ -32,8 +32,8 @@
                             <table class="table ">
                                 <thead class="bg-light">
                                     <tr>
-                                        <th scope="col">Title</th>
-                                        <th scope="col">Applicants</th>
+                                        <th scope="col">Job Title</th>
+                                        <th scope="col">Applied By</th>
                                         <th scope="col">Created By</th>
                                         <th scope="col">Date</th>
                                         <th scope="col">Status</th>
@@ -41,20 +41,20 @@
                                     </tr>
                                 </thead>
                                 <tbody class="border-0">
-                                    @if ($jobs->isNotEmpty())
-                                        @foreach ($jobs as $job)
+                                    @if ($applications->isNotEmpty())
+                                        @foreach ($applications as $application)
                                         <tr class="active">
                                             <td>
-                                                {{ $job->title }}
+                                                {{ $application->addJob->title }}
                                             </td>
                                             <td>
-                                                {{ $job->applications->count() }}
+                                                {{ $application->user->name }}
                                             </td>
                                             <td>
-                                                {{ $job->user->name }}
+                                                {{ $application->employer->name }}
                                             </td>
-                                            <td>{{ \Carbon\Carbon::parse($job->created_at)->format('d M, Y') }}</td>
-                                            @if($job-> status == 1)
+                                            <td>{{ \Carbon\Carbon::parse($application->created_at)->format('d M, Y') }}</td>
+                                            @if($application->addJob-> status == 1)
                                             <td>
                                                 Active
                                             </td>
@@ -63,16 +63,8 @@
                                                 Block
                                             </td>
                                             @endif
-                                            <td>
-                                                <div class="action-dots">
-                                                    <button href="#" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a class="dropdown-item" href="{{ route('admin.jobs.edit', $job->id) }}"><i class="fa fa-edit" aria-hidden="true"></i> Edit</a></li>
-                                                        <li><a class="dropdown-item" href="#" onclick="deleteJob({{ $job->id }})"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a></li>
-                                                    </ul>
-                                                </div>
+                                            <td>                                   <button type="submit" class="bg bg-danger" onclick="deleteJob({{ $application->id }})"><i class="fa fa-trash" aria-hidden="true"></i> Delete
+                                            </button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -87,7 +79,7 @@
                             </table>
                         </div>
                         <div>
-                            {{ $jobs->links() }}
+                            {{ $applications->links() }}
                         </div>
                     </div>
                 </div>
@@ -105,12 +97,12 @@
     function deleteJob(id){
     if(confirm("Are you sure you want to delete?")){
         $.ajax({
-            url : '{{ route("admin.jobs.destroy") }}',
+            url : '{{ route("admin.applications.destroy") }}',
             type: 'delete',
             data : {id: id},
             dataType : 'json',
             success : function(response){
-                window.location.href='{{ route("admin.jobs") }}';
+                window.location.href='{{ route("admin.applications") }}';
             }
         });
     }

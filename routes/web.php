@@ -6,6 +6,7 @@ use App\Http\Controllers\JobsController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\JobController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\admin\JobApplicationController;
 use App\Http\Middleware\CheckAdmin;
 use Illuminate\Support\Facades\Route;
 
@@ -15,6 +16,10 @@ Route::get('/jobs',[JobsController::class,'index'])->name('jobs');
 Route::get('/jobs/details/{id}',[JobsController::class,'details'])->name('jobDetails');
 Route::post('/apply-job',[JobsController::class,'applyJob'])->name('applyJob');
 Route::post('/save-job',[JobsController::class,'saveJob'])->name('saveJob');
+Route::get('/forgot-password',[AccountController::class,'forgotPassword'])->name('account.forgotPassword');
+Route::post('/process-forgot-password',[AccountController::class,'processForgotPassword'])->name('account.processForgotPassword');
+Route::get('/reset-password{token}',[AccountController::class,'resetPassword'])->name('account.resetPassword');
+Route::post('/reset-password-update',[AccountController::class,'resetPasswordUpdate'])->name('account.resetPasswordUpdate');
 
 
 Route::group(['prefix' => 'admin', 'middleware' => 'checkRole'], function(){
@@ -28,6 +33,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'checkRole'], function(){
     Route::get('jobs/{id}',[JobController::class,'edit'])->name('admin.jobs.edit');
     Route::post('jobs/{id}',[JobController::class,'update'])->name('admin.jobs.update');
     Route::delete('jobs',[JobController::class,'destroy'])->name('admin.jobs.destroy');
+    Route::get('applications',[JobApplicationController::class,'index'])->name('admin.applications');
+    Route::delete('applications',[JobApplicationController::class,'destroy'])->name('admin.applications.destroy');
 
 });
 

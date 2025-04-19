@@ -8,8 +8,8 @@
             <div class="col">
                 <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
                     <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard</li>
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                        <li class="breadcrumb-item active">Edit job</li>
                     </ol>
                 </nav>
             </div>
@@ -86,7 +86,33 @@
                                             <input value="{{ $job->location }}" type="text" placeholder="location" id="location" name="location" class="form-control">
                                         </div>
                                     </div>
-            
+
+                                    <div class="row">
+                                        <div class="md-4 col-md-6">
+                                            <div class="form-check">
+                                                <input {{ ($job->isFeatured == 1) ? 'checked' : '' }} class="form-check-input" type="checkbox" value="1" id="isFeatured" name="isFeatured">
+                                                <label class="form-check-label" for="isFeatured">
+                                                    Featured 
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="md-4 col-md-6">
+                                            <div class="form-check-inline">
+                                                <input {{ ($job->status == 1) ? 'checked' : '' }} class="form-check-input" type="radio" value="1" id="status-active" name="status">
+                                                <label class="form-check-label" for="status">
+                                                    Active 
+                                                </label>
+                                            </div>
+                                            <div class="form-check-inline">
+                                                <input {{ ($job->status == 0) ? 'checked' : '' }} class="form-check-input" type="radio" value="0" id="status-block" name="status">
+                                                <label class="form-check-label" for="status">
+                                                    Block 
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="mb-4">
                                         <label for="" class="mb-2">Description<span class="req">*</span></label>
                                         <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description" cols="5" rows="5" placeholder="Description">{{ $job->description }}</textarea>

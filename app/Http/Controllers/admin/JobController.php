@@ -69,6 +69,8 @@ class JobController extends Controller
         $job->vacancy = $request->vacancy;
         $job->salary = $request->salary;
         $job->location = $request->location;
+        $job->status = $request->status;
+        $job->isFeatured = (!empty($request->isFeatured)) ? $request->isFeatured : 0;
         $job->description = $request->description;
         $job->benefits = $request->benefits;
         $job->responsibility = $request->responsibility;
